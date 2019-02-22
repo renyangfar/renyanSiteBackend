@@ -1,17 +1,15 @@
-from flask import url_for, flash
+from flask import url_for, flash, request
 from werkzeug.utils import redirect
 
 from models import User
-from forms import RegistrationForm
 from . import user, db
 
 
 @user.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-
-    if form.validate_on_submit():
-        user = User(email=form.email.data, username=form.username.data, password=form.password.data)
+    if True:
+        register_data = request.form
+        user = User(email=register_data.get('Email'), username=register_data.get('Username'), password=register_data.get("Password"))
         db.session.add(user)
         db.session.commit()
         flash('You can now login.')
