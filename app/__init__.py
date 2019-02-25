@@ -19,8 +19,10 @@ login_manager.init_app(app)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-from user import user
 from main import main
+from user import user
+from blog import blog
 
 app.register_blueprint(main, url_prefix='/')
 app.register_blueprint(user, url_prefix='/user')
+app.register_blueprint(blog, url_prefix='/blog')
