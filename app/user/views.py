@@ -2,13 +2,40 @@ import json
 import re
 
 from flask import request
+from flask_login import login_user, logout_user, login_required
 
 from app import db
 from .models import User
 from . import user
 
 
-@user.route('/register', methods=['GET', 'POST'])
+@user.route('/login', methods=['POST'])
+def login():
+    try:
+        req_data = request.form
+        username, password = req_data.get('username', ''), req_data.get('password', '')
+        user = User.query.filter_by(username=username, password=password).first()
+        if not user:
+            return json.dumps({"success": False, "data": "username or password error"})
+        login_user(user)
+        return json.dumps({"success": True, "data": "login success"})
+    except Exception as e:
+        print(e)
+        return json.dumps({"success": False, "data": e.message})
+
+
+@user.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    try:
+        logout_user()
+        return json.dumps({"success": True, "data": 'logout success'})
+    except Exception as e:
+        print(e)
+        return json.dumps({"success": False, "data": e.message})
+
+
+@user.route('/register', methods=['POST'])
 def register():
     try:
         req_data = request.form
