@@ -27,13 +27,14 @@ def get_es_client(is_authorization=True):
 
 
 def get_query_dict(q_filter=None, q_must=None, q_must_not=None, q_should=None,
-                   q_aggs=None, q_from=0, q_size=0, q_sort=None):
+                   q_aggs=None, q_from=0, q_size=0, q_sort=None, q_highlight=None):
     q_filter = q_filter if q_filter else []
     q_must = q_must if q_must else []
     q_must_not = q_must_not if q_must_not else []
     q_should = q_should if q_should else []
     q_sort = q_sort if q_sort else []
     q_aggs = q_aggs if q_aggs else {}
+    q_highlight = q_highlight if q_highlight else {}
 
     query_dict = {
         "query": {
@@ -47,6 +48,7 @@ def get_query_dict(q_filter=None, q_must=None, q_must_not=None, q_should=None,
         "aggs": q_aggs,
         "from": q_from,
         "size": q_size,
-        "sort": q_sort
+        "sort": q_sort,
+        "highlight": q_highlight,
     }
     return query_dict
