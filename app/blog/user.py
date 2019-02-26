@@ -5,7 +5,7 @@ import time
 from flask import request
 from flask_login import login_required, current_user
 
-from blog import es_client
+from . import es_client
 from modules.elasticSearch import get_query_dict, blog_index
 
 

@@ -1,5 +1,5 @@
-from blog.public import handle_public_articles
-from blog.user import handle_user_articles, handle_articles_category, handle_article
+from app.blog.public import handle_public_articles
+from app.blog.user import handle_user_articles, handle_articles_category, handle_article
 from . import blog
 
 

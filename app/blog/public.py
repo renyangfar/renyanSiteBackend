@@ -2,7 +2,7 @@ import json
 
 from flask import request
 
-from blog import es_client
+from app.blog import es_client
 from modules.elasticSearch import get_query_dict, blog_index
 
 
