@@ -2,6 +2,8 @@ from ssl import create_default_context
 
 import elasticsearch
 
+blog_index = 'test_site'
+
 
 def get_es_client(is_authorization=True):
     try:
@@ -12,7 +14,7 @@ def get_es_client(is_authorization=True):
             #                                         port=9200,
             #                                         ssl_context=context, )
             es_client = elasticsearch.Elasticsearch(['https://admin:antiy123654@203.91.58.43:9200'], verify_certs=False,
-                                        use_ssl=True)
+                                                    use_ssl=True)
             return es_client
         else:
             es_servers = [{
