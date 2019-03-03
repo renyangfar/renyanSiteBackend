@@ -2,10 +2,10 @@ from ssl import create_default_context
 
 import elasticsearch
 
-blog_index = 'test_site'
+blog_index = 'renyan_site'
 
 
-def get_es_client(is_authorization=True):
+def get_es_client(is_authorization=False):
     try:
         if is_authorization:
             # context = create_default_context(cafile="root-ca.pem")

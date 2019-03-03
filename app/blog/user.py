@@ -13,13 +13,13 @@ def handle_user_articles():
     try:
         req_data = request.args
         username, page, q_size, order, search_key = req_data.get('username', ''), int(req_data.get('page', 0)), int(
-            req_data.get('size', 15)), req_data.get('order', 'created'), req_data.get('search_key', '')
+            req_data.get('size', 10)), req_data.get('order', 'created'), req_data.get('search_key', '')
         q_from = page * q_size
         q_filter = {
             "term": {
                 "author.keyword": username
             }
-        }
+        } if username else {}
         q_sort = [
             {
                 order: {
@@ -62,7 +62,7 @@ def handle_user_articles():
         if not search_key:
             data_list = [item['_source'] for item in res_hits]
             for item in data_list:
-                item['body'] = item['body'][:100]
+                item['body'] = item['body'][:180]
         else:
             for item in res_hits:
                 item['_source']['body'] = item['highlight']['body']
