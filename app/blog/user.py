@@ -10,7 +10,7 @@ from modules.elasticSearch import get_query_dict, blog_index
 
 
 def handle_user_articles():
-    try:
+    #try:
         req_data = request.args
         username, page, q_size, order, search_key = req_data.get('username', ''), int(req_data.get('page', 0)), int(
             req_data.get('size', 10)), req_data.get('order', 'created'), req_data.get('search_key', '')
@@ -49,6 +49,8 @@ def handle_user_articles():
                 }
             ]
             q_highlight = {
+		"pre_tags": [""],
+	        "post_tags": [""],
                 "fields": {
                     "body": {}
                 }
@@ -63,14 +65,21 @@ def handle_user_articles():
             data_list = [item['_source'] for item in res_hits]
             for item in data_list:
                 item['body'] = item['body'][:180]
+            return json.dumps({"success": True, "data": data_list})
         else:
             for item in res_hits:
-                item['_source']['body'] = item['highlight']['body']
+		if item.get('highlight',''):
+			item['_source']['body'] = item['highlight']['body']
+		else:
+			item['_source']['body'] = item['_source']['body'][:200]
             data_list = [item['_source'] for item in res_hits]
-        return json.dumps({"success": True, "data": data_list})
-    except Exception as e:
-        print(e)
-        return json.dumps({"success": False, "data": e.message})
+	    body={"text":search_key,"analyzer": "ik_max_word"}
+            res = es_client.indices.analyze(body=body)
+	    tokens = [item['token'] for item in res['tokens']] 
+            return json.dumps({"success": True, "data": data_list, "tokens": tokens})
+    #except Exception as e:
+    #    print(e)
+    #    return json.dumps({"success": False, "data": e.message})
 
 
 def handle_articles_category():
