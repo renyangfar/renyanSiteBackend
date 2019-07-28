@@ -5,17 +5,12 @@ import elasticsearch
 blog_index = 'renyan_site'
 
 
-def get_es_client(is_authorization=False):
+def get_es_client(is_authorization=True):
     try:
         if is_authorization:
-            # context = create_default_context(cafile="root-ca.pem")
-            # es_client = elasticsearch.Elasticsearch(['203.91.58.43', ], http_auth=('admin', 'antiy123654'),
-            #                                         scheme='https',
-            #                                         port=9200,
-            #                                         ssl_context=context, )
-            es_client = elasticsearch.Elasticsearch(['https://admin:antiy123654@203.91.58.43:9200'], verify_certs=False,
-                                                    use_ssl=True)
+            es_client = elasticsearch.Elasticsearch(['127.0.0.1', ], http_auth=('elastic', 'Alyes369'), port='9200')
             return es_client
+	
         else:
             es_servers = [{
                 "host": "127.0.0.1",
@@ -24,8 +19,9 @@ def get_es_client(is_authorization=False):
             es_client = elasticsearch.Elasticsearch(hosts=es_servers)
             return es_client
     except Exception as err:
-        print err
+        print 'raise error: %s' %err.message
         return None
+
 
 
 def get_query_dict(q_filter=None, q_must=None, q_must_not=None, q_should=None,

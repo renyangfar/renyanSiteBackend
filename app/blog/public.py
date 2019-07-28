@@ -32,5 +32,5 @@ def handle_public_articles():
 		item['body'] = item['body'][:180]
         return json.dumps({"success": True, "data": data_list})
     except Exception as e:
-        print(e)
+        print("raise error: %s" %e.message)
         return json.dumps({"success": False, "data": e.message})
