@@ -123,6 +123,9 @@ def handle_get_articles():
         print(json.dumps(query_dict))
         res = es_client.search(index=blog_index, body=query_dict)
         data = res['hits']['hits']
+        if len(data) == 0:
+            return json.dumps({"success": False, "data": []})
+        data = data[0]["_source"]
         threading.Thread(target=update_browse_mount, args=(_id,)).start()
         return json.dumps({"success": True, "data": data})
     except Exception as e:
