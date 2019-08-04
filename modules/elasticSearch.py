@@ -8,12 +8,12 @@ blog_index = 'renyan_site'
 def get_es_client(is_authorization=True):
     try:
         if is_authorization:
-            es_client = elasticsearch.Elasticsearch(['127.0.0.1', ], http_auth=('elastic', 'Alyes369'), port='9200')
+            es_client = elasticsearch.Elasticsearch(['149.129.119.37', ], http_auth=('elastic', 'Alyes369'), port='9200')
             return es_client
 	
         else:
             es_servers = [{
-                "host": "127.0.0.1",
+                "host": "149.129.119.37",
                 "port": "9200"
             }]
             es_client = elasticsearch.Elasticsearch(hosts=es_servers)

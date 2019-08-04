@@ -126,6 +126,7 @@ def handle_get_articles():
         if len(data) == 0:
             return json.dumps({"success": False, "data": []})
         data = data[0]["_source"]
+	data['_id'] = _id
         threading.Thread(target=update_browse_mount, args=(_id,)).start()
         return json.dumps({"success": True, "data": data})
     except Exception as e:
@@ -160,10 +161,10 @@ def handle_post_articles():
         return json.dumps({"success": False, "data": e.message})
 
 
-@login_required
+#@login_required
 def handle_put_articles():
     try:
-        req_data = request.form
+        req_data = json.loads(request.data)
         _id, title, body, category, isPublish = req_data.get('_id', ''), req_data.get('title', ''), \
                                                 req_data.get('body', ''), req_data.get('category', ''), \
                                                 req_data.get('isPublish', False)
